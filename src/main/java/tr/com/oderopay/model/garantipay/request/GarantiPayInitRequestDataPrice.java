@@ -9,5 +9,5 @@ import lombok.Data;
 @Builder
 public class GarantiPayInitRequestDataPrice {
     private String amount;
-    private Double currency;
+    private Integer currency;
 }

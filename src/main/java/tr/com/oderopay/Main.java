@@ -91,36 +91,50 @@ public class Main {
     private static GarantiPayInitRequest getGarantiPayInitRequest() {
         return GarantiPayInitRequest.builder()
                 .meta(GarantiPayInitRequestMeta.builder()
-                        .id(UUID.randomUUID().toString())
-                        .timestamp(System.currentTimeMillis())
-                        .source("test-source")
+                        .id("acde070d-8c4c-4f0d-9d8a-162843c10333")
+                        .timestamp(System.currentTimeMillis() / 1000)
+                        .source("garantipay")
                         .clientInfo(List.of(
-                                GarantiPayInitRequestClientInfo.builder().type("ClientIp").value("1.2.3.4").build(),
-                                GarantiPayInitRequestClientInfo.builder().type("ServerIp").value("1.2.3.4").build(),
-                                GarantiPayInitRequestClientInfo.builder().type("UserId").value(UUID.randomUUID().toString()).build(),
-                                GarantiPayInitRequestClientInfo.builder().type("Channel").value("test-channel").build()
+                                GarantiPayInitRequestClientInfo.builder().type("clientIp").value("38.45.490.123").build(),
+                                GarantiPayInitRequestClientInfo.builder().type("serverIp").value("194.29.214.244").build(),
+                                GarantiPayInitRequestClientInfo.builder().type("userId").value(UUID.randomUUID().toString()).build(),
+                                GarantiPayInitRequestClientInfo.builder().type("channel").value("WEB").build(),
+                                GarantiPayInitRequestClientInfo.builder().type("email").value("test@test.com").build()
                         ))
                         .build())
                 .data(GarantiPayInitRequestData.builder()
-                        .orderId(UUID.randomUUID().toString())
-                        .operation("test-operation")
-                        .companyName("test-company")
+                        .orderId("467645734901236734")
+                        .price(GarantiPayInitRequestDataPrice.builder()
+                                .amount("10000")
+                                .currency(949)
+                                .build())
+                        .operation("sales")
+                        .companyName("Test company")
+                        .orderInfo("Test order info")
                         .timeoutPeriodInSeconds(300)
                         .bonusflashNotificationInd(true)
                         .returnUrl(GarantiPayInitRequestDataReturnUrl.builder()
-                                .link("https://example.com/return")
-                                .type("WEB")
+                                .link("https://garantibbva.com.tr/api/ecom/returnUrl")
+                                .type("web")
                                 .build())
-                        .notificationUrl("https://example.com/notification")
+                        .notificationUrl("https://test-merchant.com/garantibbva-ecom/api/garantipay/v0/status")
+                        .customer(GarantiPayInitRequestDataCustomer.builder()
+                                .nationalNumber("18007904436")
+                                .gsmNumber("5354194523")
+                                .build())
                         .paymentOptions(GarantiPayInitRequestDataPaymentOptions.builder()
                                 .threeDSecureCheck(true)
-                                .addCampaignInstallment(false)
+                                .cvcRequired(false)
+                                .paymentOptionsUrl("https://test-merchant.com/garantibbva-ecom/api/payment/v0/options")
+                                .addCampaignInstallment(true)
                                 .showOnlyInstallments(false)
                                 .installmentOnlyForCommercialCard(false)
-                                .build())
-                        .price(GarantiPayInitRequestDataPrice.builder()
-                                .amount("10000")
-                                .currency(949.00)
+                                .loyalties(List.of(
+                                        GarantiPayInitRequestDataLoyalty.builder().type("bns").useInd(false).build(),
+                                        GarantiPayInitRequestDataLoyalty.builder().type("bnsfbb").useInd(false).build(),
+                                        GarantiPayInitRequestDataLoyalty.builder().type("cheque").useInd(false).build(),
+                                        GarantiPayInitRequestDataLoyalty.builder().type("mile").useInd(false).build()
+                                ))
                                 .build())
                         .build())
                 .build();
