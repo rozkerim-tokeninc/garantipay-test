@@ -21,10 +21,7 @@ import org.apache.hc.core5.http.config.RegistryBuilder;
 import org.apache.hc.core5.http.io.entity.StringEntity;
 import org.apache.hc.core5.ssl.SSLContexts;
 import org.apache.hc.core5.ssl.TrustStrategy;
-import tr.com.oderopay.model.garantipay.request.GarantiPayInitRequest;
-import tr.com.oderopay.model.garantipay.request.GarantiPayInitRequestData;
-import tr.com.oderopay.model.garantipay.request.GarantiPayInitRequestDataPrice;
-import tr.com.oderopay.model.garantipay.request.GarantiPayInitRequestMeta;
+import tr.com.oderopay.model.garantipay.request.*;
 
 import javax.net.ssl.SSLContext;
 import java.io.IOException;
@@ -33,6 +30,7 @@ import java.security.KeyManagementException;
 import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
+import java.util.List;
 import java.util.UUID;
 
 @Slf4j
@@ -95,12 +93,34 @@ public class Main {
                 .meta(GarantiPayInitRequestMeta.builder()
                         .id(UUID.randomUUID().toString())
                         .timestamp(System.currentTimeMillis())
+                        .source("test-source")
+                        .clientInfo(List.of(
+                                GarantiPayInitRequestClientInfo.builder().type("ClientIp").value("1.2.3.4").build(),
+                                GarantiPayInitRequestClientInfo.builder().type("ServerIp").value("1.2.3.4").build(),
+                                GarantiPayInitRequestClientInfo.builder().type("UserId").value(UUID.randomUUID().toString()).build(),
+                                GarantiPayInitRequestClientInfo.builder().type("Channel").value("test-channel").build()
+                        ))
                         .build())
                 .data(GarantiPayInitRequestData.builder()
-                        .orderId("467645734901236734")
+                        .orderId(UUID.randomUUID().toString())
+                        .operation("test-operation")
+                        .companyName("test-company")
+                        .timeoutPeriodInSeconds(300)
+                        .bonusflashNotificationInd(true)
+                        .returnUrl(GarantiPayInitRequestDataReturnUrl.builder()
+                                .link("https://example.com/return")
+                                .type("WEB")
+                                .build())
+                        .notificationUrl("https://example.com/notification")
+                        .paymentOptions(GarantiPayInitRequestDataPaymentOptions.builder()
+                                .threeDSecureCheck(true)
+                                .addCampaignInstallment(false)
+                                .showOnlyInstallments(false)
+                                .installmentOnlyForCommercialCard(false)
+                                .build())
                         .price(GarantiPayInitRequestDataPrice.builder()
                                 .amount("10000")
-                                .currency("949")
+                                .currency(949.00)
                                 .build())
                         .build())
                 .build();
