@@ -103,7 +103,7 @@ public class Main {
                         ))
                         .build())
                 .data(GarantiPayInitRequestData.builder()
-                        .orderId("467645734901236734")
+                        .orderId(UUID.randomUUID().toString())
                         .price(GarantiPayInitRequestDataPrice.builder()
                                 .amount("10000")
                                 .currency(949)
@@ -169,7 +169,7 @@ public class Main {
     public static String post(String url, String body) {
         HttpClient client = createUnsafeHttpClient();
         HttpPost post = new HttpPost(url);
-        post.setHeader("Content-Type", "text/plain");
+        post.setHeader("Content-Type", "application/json");
         post.setEntity(new StringEntity(body, StandardCharsets.UTF_8));
         try (ClassicHttpResponse response = (ClassicHttpResponse) client.execute(post)) {
             HttpEntity entity = response.getEntity();
